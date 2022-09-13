@@ -59,8 +59,8 @@ class Bishop(BasePiece):
         diag = self.getLimits(False)
         return [[(p[0]-i, p[1]-i) for i in range(diag[0])],
             [(p[0]+i, p[1]-i) for i in range(diag[0])],
-            [(p[0]-i, p[1]-i) for i in range(diag[0])],
-            [(p[0]-i, p[1]-i) for i in range(diag[0])]]
+            [(p[0]+i, p[1]+i) for i in range(diag[0])],
+            [(p[0]-i, p[1]+i) for i in range(diag[0])]]
 
 
 class Knight(BasePiece):

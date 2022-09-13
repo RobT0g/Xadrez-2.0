@@ -24,9 +24,27 @@ class Screen:
         for i in range(8):
             for j in range(8):
                 self.frame.blit(tiles[(i%2) == (j%2)], (i*75+16, j*75+16))
+        self.greenTile = pygame.Surface((75, 75))
+        pygame.draw.rect(self.greenTile, (0, 0, 0), pygame.Rect(0, 0, 75, 75), 1)
+        pygame.draw.rect(self.greenTile, (20, 255, 20), pygame.Rect(1, 1, 73, 73))
+        self.yellowTile = pygame.Surface((75, 75))
+        pygame.draw.rect(self.yellowTile, (0, 0, 0), pygame.Rect(0, 0, 75, 75), 1)
+        pygame.draw.rect(self.yellowTile, (20, 255, 200), pygame.Rect(1, 1, 73, 73))
+        self.redTile = pygame.Surface((75, 75))
+        pygame.draw.rect(self.redTile, (0, 0, 0), pygame.Rect(0, 0, 75, 75), 1)
+        pygame.draw.rect(self.redTile, (255, 20, 20), pygame.Rect(1, 1, 73, 73))
 
     def setOnScreen(self):
         self.display.blit(self.frame, (0, 0))
+        try:
+            if self.board.clickedOn:
+                for i in (p:=self.board.getClicked()).getMoveBox():
+                    for j in i:
+                        self.display.blit(self.greenTile, self.getBoardCoord(*j))
+                self.display.blit(self.yellowTile, self.getBoardCoord(*p.pos))
+                print(p.getMoveBox())
+        except Exception as e:
+            print(e)
         for k1, v1 in enumerate(self.board.board):
             for k2, v2 in enumerate(v1):
                 if v2:
@@ -34,7 +52,6 @@ class Screen:
         pygame.display.flip()
 
     def getBoardCoord(self, *coord):
-        print(coord)
         return (coord[0]*75+16, coord[1]*75+16)
 
     def update(self):
